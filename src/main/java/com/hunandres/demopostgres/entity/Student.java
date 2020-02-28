@@ -14,12 +14,14 @@ import javax.persistence.Table;
 @ToString
 @Builder
 @Entity
-@Table(name = "majors")
-public class Major {
+@Table(name = "students")
+public class Student {
 
     @Id
     @GeneratedValue
     private int id;
 
-    private String major_name;
+    private String student_name;
+
+    private String student_email;
 }
