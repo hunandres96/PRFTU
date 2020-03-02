@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MajorServiceImpl implements MajorService {
@@ -23,6 +24,7 @@ public class MajorServiceImpl implements MajorService {
 
     @Override
     public List<MajorDTO> findAll() {
+
         List<Major> majors = majorRepository.findAll();
         List<MajorDTO> majorDTOS = new ArrayList<>();
 
@@ -31,5 +33,22 @@ public class MajorServiceImpl implements MajorService {
         });
 
         return majorDTOS;
+    }
+
+    @Override
+    public MajorDTO findMajorById(Integer id) {
+
+        Optional<Major> result = majorRepository.findById(id);
+        Major major;
+
+        if (result.isPresent()) {
+            major = result.get();
+        } else {
+            throw new RuntimeException("Major with id: " + id + " was not found");
+        }
+
+        MajorDTO majorDTO = modelMapper.map(major, MajorDTO.class);
+
+        return majorDTO;
     }
 }

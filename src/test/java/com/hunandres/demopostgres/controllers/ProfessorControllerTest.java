@@ -1,7 +1,7 @@
 package com.hunandres.demopostgres.controllers;
 
-import com.hunandres.demopostgres.dto.MajorDTO;
-import com.hunandres.demopostgres.service.MajorService;
+import com.hunandres.demopostgres.dto.ProfessorDTO;
+import com.hunandres.demopostgres.service.ProfessorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +22,35 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
-@WebMvcTest(MajorController.class)
-public class MajorControllerTest {
+@WebMvcTest(ProfessorController.class)
+public class ProfessorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private MajorService majorService;
+    private ProfessorService professorService;
 
     @Test
-    public void findAllMajorsTest() throws Exception {
+    public void findAllProfessorsTest() throws Exception {
 
-        List<MajorDTO> majorDTOS = new ArrayList<>();
-        majorDTOS.add(MajorDTO.builder().id(1).major_name("Accounting").build());
-        when(majorService.findAll()).thenReturn(majorDTOS);
+        List<ProfessorDTO> professorDTOS = new ArrayList<>();
+        professorDTOS.add(ProfessorDTO.builder()
+            .id(1)
+            .professor_name("Drake Perry")
+            .professor_email("drakeperry@umsl.edu")
+            .build());
+        when(professorService.findAll()).thenReturn(professorDTOS);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/majors");
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/professors");
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
-        verify(majorService, times(1)).findAll();
+        verify(professorService, times(1)).findAll();
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
 
     }

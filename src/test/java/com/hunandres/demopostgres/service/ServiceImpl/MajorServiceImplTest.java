@@ -1,4 +1,4 @@
-package com.hunandres.demopostgres.services;
+package com.hunandres.demopostgres.service.ServiceImpl;
 
 import com.hunandres.demopostgres.dto.MajorDTO;
 import com.hunandres.demopostgres.entity.Major;
@@ -30,13 +30,19 @@ public class MajorServiceImplTest {
     ModelMapper modelMapper;
 
     @Test
-    public void findAllTest() {
+    public void findAllMajorsTest() {
 
         List<Major> majors = new ArrayList<>();
-        majors.add(Major.builder().id(1).major_name("Accounting").build());
+        majors.add(Major.builder()
+                .id(1)
+                .major_name("Accounting")
+                .build());
         when(majorRepository.findAll()).thenReturn(majors);
 
-        MajorDTO majorDTO = MajorDTO.builder().id(1).major_name("Accounting").build();
+        MajorDTO majorDTO = MajorDTO.builder()
+                .id(1)
+                .major_name("Accounting")
+                .build();
         when(modelMapper.map(any(), eq(MajorDTO.class))).thenReturn(majorDTO);
 
         MajorServiceImpl majorService = new MajorServiceImpl(majorRepository, modelMapper);

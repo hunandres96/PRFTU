@@ -26,8 +26,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findStudentById(Integer id) {
-        Optional<Student> result = repository.findById(id);
 
+        Optional<Student> result = repository.findById(id);
         Student student;
 
         if (result.isPresent()) {

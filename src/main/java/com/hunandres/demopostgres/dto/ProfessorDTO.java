@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MajorDTO {
+public class ProfessorDTO {
 
     private Integer id;
-    private String major_name;
+    private String professor_name;
+    private String professor_email;
 
 }

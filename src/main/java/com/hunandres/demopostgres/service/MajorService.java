@@ -7,5 +7,6 @@ import java.util.List;
 public interface MajorService {
 
     List<MajorDTO> findAll();
+    MajorDTO findMajorById(Integer id);
 
 }
