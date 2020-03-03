@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StudentSearchRequest {
 
-    private String[] courseId;
     private Integer[] majorId;
 
 }

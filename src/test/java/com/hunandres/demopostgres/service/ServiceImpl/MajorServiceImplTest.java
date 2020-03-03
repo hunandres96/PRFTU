@@ -3,9 +3,10 @@ package com.hunandres.demopostgres.service.ServiceImpl;
 import com.hunandres.demopostgres.dto.MajorDTO;
 import com.hunandres.demopostgres.entity.Major;
 import com.hunandres.demopostgres.repositories.MajorRepository;
-import com.hunandres.demopostgres.service.ServiceImpl.MajorServiceImpl;
 import org.junit.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MajorServiceImplTest {
@@ -29,19 +31,22 @@ public class MajorServiceImplTest {
     @Mock
     ModelMapper modelMapper;
 
+    @InjectMocks
+    private MajorServiceImpl majorService;
+
     @Test
     public void findAllMajorsTest() {
 
         List<Major> majors = new ArrayList<>();
         majors.add(Major.builder()
                 .id(1)
-                .major_name("Accounting")
+                .major_name("Marketing")
                 .build());
         when(majorRepository.findAll()).thenReturn(majors);
 
         MajorDTO majorDTO = MajorDTO.builder()
                 .id(1)
-                .major_name("Accounting")
+                .major_name("Marketing")
                 .build();
         when(modelMapper.map(any(), eq(MajorDTO.class))).thenReturn(majorDTO);
 
@@ -51,6 +56,30 @@ public class MajorServiceImplTest {
 
         verify(majorRepository).findAll();
         verify(modelMapper).map(any(), eq(MajorDTO.class));
+
+    }
+
+    @Test
+    public void findMajorById() {
+
+        Major major = Major.builder()
+                .id(1)
+                .major_name("Marketing")
+                .build();
+
+        MajorDTO majorDTO = MajorDTO.builder()
+                .id(1)
+                .major_name("Marketing")
+                .build();
+
+        Optional<Major> optionalMajor = Optional.of(major);
+        when(majorRepository.findById(1)).thenReturn(optionalMajor);
+        when(modelMapper.map(major, MajorDTO.class)).thenReturn(majorDTO);
+
+        majorService.findMajorById(1);
+
+        verify(majorRepository).findById(1);
+        verify(modelMapper).map(major, MajorDTO.class);
 
     }
 }

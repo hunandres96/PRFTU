@@ -1,33 +1,54 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
+import com.hunandres.demopostgres.dto.StudentDTO;
+import com.hunandres.demopostgres.dto.StudentSearchRequest;
 import com.hunandres.demopostgres.entity.Student;
 import com.hunandres.demopostgres.repositories.StudentRepository;
 import com.hunandres.demopostgres.service.StudentService;
+import com.querydsl.core.BooleanBuilder;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    StudentRepository repository;
+    private StudentRepository studentRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository repository) {
-        this.repository = repository;
+    public StudentServiceImpl(StudentRepository studentRepository, ModelMapper modelMapper) {
+        this.studentRepository = studentRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<Student> findAll() {
-        return repository.findAll();
+    public List<StudentDTO> findAll(StudentSearchRequest studentSearchRequest) {
+
+        List<Student> students;
+
+        BooleanBuilder predicate = StudentRepository.searchPredicate(studentSearchRequest);
+
+        students = (List<Student>) studentRepository.findAll(predicate);
+
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+
+        students.stream().forEach(student -> {
+            studentDTOS.add(modelMapper.map(student, StudentDTO.class));
+        });
+
+        return studentDTOS;
+
     }
 
     @Override
-    public Student findStudentById(Integer id) {
+    public StudentDTO findStudentById(Integer id) {
 
-        Optional<Student> result = repository.findById(id);
+        Optional<Student> result = studentRepository.findById(id);
         Student student;
 
         if (result.isPresent()) {
@@ -36,7 +57,9 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException("Student with id: " + id + " was not found");
         }
 
-        return student;
+        StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
+
+        return studentDTO;
 
     }
 

@@ -2,10 +2,7 @@ package com.hunandres.demopostgres.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -19,7 +16,13 @@ public class Course {
 
     @Id
     @GeneratedValue
-    private int id;
+    private String id;
 
     private String course_name;
+
+    @ManyToOne
+    private Department department;
+
+    @ManyToOne
+    private Professor professor;
 }

@@ -1,6 +1,7 @@
 package com.hunandres.demopostgres.dto;
 
 import com.hunandres.demopostgres.entity.Department;
+import com.hunandres.demopostgres.entity.Professor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfessorDTO {
+public class CourseDTO {
 
-    private Integer id;
-    private String professor_name;
-    private String professor_email;
+    private String id;
+    private  String course_name;
     private Department department;
+    private Professor professor;
 
 }

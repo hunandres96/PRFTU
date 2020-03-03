@@ -3,8 +3,11 @@ package com.hunandres.demopostgres.service.ServiceImpl;
 import com.hunandres.demopostgres.dto.ProfessorDTO;
 import com.hunandres.demopostgres.entity.Professor;
 import com.hunandres.demopostgres.repositories.ProfessorRepository;
+import com.hunandres.demopostgres.service.ProfessorService;
 import org.junit.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
@@ -17,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProfessorServiceImplTest {
@@ -26,6 +30,9 @@ public class ProfessorServiceImplTest {
 
     @Mock
     ModelMapper modelMapper;
+
+    @InjectMocks
+    private ProfessorServiceImpl professorService;
 
     @Test
     public void findAllProfessorsTest() {
@@ -51,6 +58,32 @@ public class ProfessorServiceImplTest {
 
         verify(professorRepository).findAll();
         verify(modelMapper).map(any(), eq(ProfessorDTO.class));
+    }
+
+    @Test
+    public void findProfessorById() {
+
+        Professor professor = Professor.builder()
+                .id(1)
+                .professor_name("Drake Perry")
+                .professor_email("drakeperry@umsl.edu")
+                .build();
+
+        ProfessorDTO professorDTO = ProfessorDTO.builder()
+                .id(1)
+                .professor_name("Drake Perry")
+                .professor_email("drakeperry@umsl.edu")
+                .build();
+
+        Optional<Professor> optionalProfessor = Optional.of(professor);
+        when(professorRepository.findById(1)).thenReturn(optionalProfessor);
+        when(modelMapper.map(professor, ProfessorDTO.class)).thenReturn(professorDTO);
+
+        professorService.findProfessorById(1);
+
+        verify(professorRepository).findById(1);
+        verify(modelMapper).map(professor, ProfessorDTO.class);
+
     }
 
 }
