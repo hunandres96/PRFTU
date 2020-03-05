@@ -11,15 +11,17 @@ import javax.persistence.*;
 @ToString
 @Builder
 @Entity
-@Table(name = "professors")
+@Table(name = "professor")
 public class Professor {
 
     @Id
     @GeneratedValue
     private int id;
 
+    @Column(name = "professor_name")
     private String professor_name;
 
+    @Column(name = "professor_email")
     private String professor_email;
 
     @ManyToOne

@@ -10,15 +10,17 @@ import javax.persistence.*;
 @ToString
 @Builder
 @Entity
-@Table(name = "students")
+@Table(name = "student")
 public class Student {
 
     @Id
     @GeneratedValue
     private Integer id;
 
+    @Column(name = "student_name")
     private String student_name;
 
+    @Column(name = "student_email")
     private String student_email;
 
     @ManyToOne

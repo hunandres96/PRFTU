@@ -2,10 +2,7 @@ package com.hunandres.demopostgres.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -21,5 +18,6 @@ public class Department {
     @GeneratedValue
     private Integer id;
 
+    @Column(name = "department_name")
     private String department_name;
 }

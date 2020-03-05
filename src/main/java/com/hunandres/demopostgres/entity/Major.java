@@ -2,10 +2,7 @@ package com.hunandres.demopostgres.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -14,12 +11,13 @@ import javax.persistence.Table;
 @ToString
 @Builder
 @Entity
-@Table(name = "majors")
+@Table(name = "major")
 public class Major {
 
     @Id
     @GeneratedValue
     private int id;
 
+    @Column(name = "major_name")
     private String major_name;
 }

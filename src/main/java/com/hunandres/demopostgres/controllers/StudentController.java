@@ -2,9 +2,7 @@ package com.hunandres.demopostgres.controllers;
 
 import com.hunandres.demopostgres.dto.StudentDTO;
 import com.hunandres.demopostgres.service.StudentService;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +15,6 @@ import java.util.List;
 public class StudentController {
 
     private StudentService studentService;
-
-    @Autowired
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
 
     @GetMapping("/students")
     private List<StudentDTO> getStudents() {

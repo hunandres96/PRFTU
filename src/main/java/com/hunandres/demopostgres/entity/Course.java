@@ -10,7 +10,7 @@ import javax.persistence.*;
 @ToString
 @Builder
 @Entity
-@Table(name = "courses")
+@Table(name = "course")
 public class Course {
 
     @Id
