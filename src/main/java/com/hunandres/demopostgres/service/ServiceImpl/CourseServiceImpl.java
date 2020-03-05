@@ -27,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDTO> findAll() {
 
-        List<Course> courses = courseRepository.findAll();
+        List<Course> courses = (List<Course>) courseRepository.findAll();
         List<CourseDTO> courseDTOS = new ArrayList<>();
 
         courses.stream().forEach(allCourses -> {

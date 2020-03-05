@@ -1,14 +1,12 @@
 package com.hunandres.demopostgres.controllers;
 
 import com.hunandres.demopostgres.dto.ProfessorDTO;
-import com.hunandres.demopostgres.entity.Professor;
-import com.hunandres.demopostgres.repositories.ProfessorRepository;
+import com.hunandres.demopostgres.dto.ProfessorSearchRequest;
 import com.hunandres.demopostgres.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProfessorController {
@@ -22,8 +20,8 @@ public class ProfessorController {
 
 
     @GetMapping("/professors")
-    public List<ProfessorDTO> getProfessors() {
-        return professorService.findAll();
+    public List<ProfessorDTO> getProfessors(ProfessorSearchRequest professorSearchRequest) {
+        return professorService.findAll(professorSearchRequest);
     }
 
     @GetMapping("/professor/{id}")

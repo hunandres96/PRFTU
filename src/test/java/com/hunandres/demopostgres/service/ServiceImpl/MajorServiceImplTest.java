@@ -4,7 +4,6 @@ import com.hunandres.demopostgres.dto.MajorDTO;
 import com.hunandres.demopostgres.entity.Major;
 import com.hunandres.demopostgres.repositories.MajorRepository;
 import org.junit.Test;
-import org.junit.jupiter.api.TestTemplate;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

@@ -1,0 +1,92 @@
+package com.hunandres.demopostgres.service.ServiceImpl;
+
+import com.hunandres.demopostgres.dto.CourseDTO;
+import com.hunandres.demopostgres.entity.Course;
+import com.hunandres.demopostgres.entity.Department;
+import com.hunandres.demopostgres.entity.Professor;
+import com.hunandres.demopostgres.repositories.CourseRepository;
+import org.hibernate.validator.constraints.ModCheck;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@RunWith(MockitoJUnitRunner.class)
+public class CourseServiceImplTest {
+
+    @Mock
+    private CourseRepository courseRepository;
+
+    @Mock
+    ModelMapper modelMapper;
+
+    @InjectMocks
+    private CourseServiceImpl courseService;
+
+    @Test
+    public void findAllCoursesTest() {
+
+        List<Course> courses = new ArrayList<>();
+        courses.add(Course.builder()
+            .id("ACCTNG_2400")
+            .course_name("Fundamentals of Financial Accounting")
+            .department(Department.builder().id(1).department_name("Accounting").build())
+            .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
+            .build());
+        when(courseRepository.findAll()).thenReturn(courses);
+
+        CourseDTO courseDTO = CourseDTO.builder()
+                .id("ACCTNG_2400")
+                .course_name("Fundamentals of Financial Accounting")
+                .build();
+        when(modelMapper.map(any(), eq(CourseDTO.class))).thenReturn(courseDTO);
+
+        CourseServiceImpl courseService = new CourseServiceImpl(courseRepository, modelMapper);
+        List<CourseDTO> courseDTOS = courseService.findAll();
+        assertNotNull(courseDTOS);
+
+        verify(courseRepository).findAll();
+        verify(modelMapper).map(any(), eq(CourseDTO.class));
+    }
+
+    @Test
+    public void findCourseById() {
+
+        Course course = Course.builder()
+                .id("ACCTNG_2400")
+                .course_name("Fundamentals of Financial Accounting")
+                .department(Department.builder().id(1).department_name("Accounting").build())
+                .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
+                .build();
+
+        CourseDTO courseDTO = CourseDTO.builder()
+                .id("ACCTNG_2400")
+                .course_name("Fundamentals of Financial Accounting")
+                .department(Department.builder().id(1).department_name("Accounting").build())
+                .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
+                .build();
+
+        Optional<Course> optionalCourse = Optional.of(course);
+        when(courseRepository.findById("ACCTNG_2400")).thenReturn(optionalCourse);
+        when(modelMapper.map(course, CourseDTO.class)).thenReturn(courseDTO);
+
+        courseService.findCourseById("ACCTNG_2400");
+
+        verify(courseRepository).findById("ACCTNG_2400");
+        verify(modelMapper).map(course, CourseDTO.class);
+
+    }
+
+}

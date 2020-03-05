@@ -48,7 +48,6 @@ public class StudentControllerTest {
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
         verify(studentService, times(1)).findAll(any());
-        //verifyNoInteractions(studentService);
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
 
     }

@@ -4,8 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -16,13 +15,13 @@ public class Student {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     private String student_name;
 
     private String student_email;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Major major;
 
 }

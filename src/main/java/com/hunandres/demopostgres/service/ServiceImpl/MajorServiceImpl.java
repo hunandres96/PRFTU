@@ -5,6 +5,7 @@ import com.hunandres.demopostgres.entity.Major;
 import com.hunandres.demopostgres.repositories.MajorRepository;
 import com.hunandres.demopostgres.service.MajorService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class MajorServiceImpl implements MajorService {
     private MajorRepository majorRepository;
     private ModelMapper modelMapper;
 
+    @Autowired
     public MajorServiceImpl(MajorRepository majorRepository, ModelMapper modelMapper) {
         this.majorRepository = majorRepository;
         this.modelMapper = modelMapper;
@@ -25,7 +27,7 @@ public class MajorServiceImpl implements MajorService {
     @Override
     public List<MajorDTO> findAll() {
 
-        List<Major> majors = majorRepository.findAll();
+        List<Major> majors = (List<Major>) majorRepository.findAll();
         List<MajorDTO> majorDTOS = new ArrayList<>();
 
         majors.stream().forEach(allMajors -> {

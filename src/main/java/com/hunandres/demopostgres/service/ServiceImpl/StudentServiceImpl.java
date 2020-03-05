@@ -3,6 +3,7 @@ package com.hunandres.demopostgres.service.ServiceImpl;
 import com.hunandres.demopostgres.dto.StudentDTO;
 import com.hunandres.demopostgres.dto.StudentSearchRequest;
 import com.hunandres.demopostgres.entity.Student;
+import com.hunandres.demopostgres.mapper.StudentMapper;
 import com.hunandres.demopostgres.repositories.StudentRepository;
 import com.hunandres.demopostgres.service.StudentService;
 import com.querydsl.core.BooleanBuilder;
@@ -18,12 +19,12 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
-    private ModelMapper modelMapper;
+    private StudentMapper studentMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, ModelMapper modelMapper) {
+    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper) {
         this.studentRepository = studentRepository;
-        this.modelMapper = modelMapper;
+        this.studentMapper = studentMapper;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class StudentServiceImpl implements StudentService {
         List<StudentDTO> studentDTOS = new ArrayList<>();
 
         students.stream().forEach(student -> {
-            studentDTOS.add(modelMapper.map(student, StudentDTO.class));
+            studentDTOS.add(studentMapper.transform(student));
         });
 
         return studentDTOS;
@@ -48,18 +49,16 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO findStudentById(Integer id) {
 
-        Optional<Student> result = studentRepository.findById(id);
-        Student student;
+        Optional<Student> studentOptional = studentRepository.findById(id);
 
-        if (result.isPresent()) {
-            student = result.get();
-        } else {
+        if (!studentOptional.isPresent()) {
             throw new RuntimeException("Student with id: " + id + " was not found");
         }
 
-        StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
-
+        StudentDTO studentDTO = studentMapper.transform(studentOptional.get());
         return studentDTO;
+
+
 
     }
 
