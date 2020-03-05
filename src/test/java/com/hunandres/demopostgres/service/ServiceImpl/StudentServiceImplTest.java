@@ -1,22 +1,20 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
 import com.hunandres.demopostgres.dto.StudentDTO;
-import com.hunandres.demopostgres.dto.StudentSearchRequest;
 import com.hunandres.demopostgres.entity.Major;
 import com.hunandres.demopostgres.entity.Student;
-import com.hunandres.demopostgres.mapper.StudentMapper;
 import com.hunandres.demopostgres.repositories.StudentRepository;
-import com.querydsl.core.types.Predicate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
 
-import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +29,7 @@ public class StudentServiceImplTest {
     private StudentRepository studentRepository;
 
     @Mock
-    private StudentMapper studentMapper;
+    private ModelMapper modelMapper;
 
     @InjectMocks
     private StudentServiceImpl studentServiceImpl;
@@ -48,7 +46,7 @@ public class StudentServiceImplTest {
                 .build();
         students.add(student);
 
-        when(studentRepository.findAll(any(Predicate.class))).thenReturn(students);
+        when(studentRepository.findAll()).thenReturn(students);
 
         StudentDTO studentDTO = StudentDTO.builder()
                 .id(1)
@@ -56,16 +54,14 @@ public class StudentServiceImplTest {
                 .student_email("johndoe@gmail.com")
                 .major(Major.builder().major_name("Marketing").build())
                 .build();
-        when(studentMapper.transform(student)).thenReturn(studentDTO);
+        when(modelMapper.map(any(), eq(StudentDTO.class))).thenReturn(studentDTO);
 
-        StudentSearchRequest studentSearchRequest = new StudentSearchRequest();
-        List<StudentDTO> studentDTOS = studentServiceImpl.findAll(studentSearchRequest);
-
+        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository, modelMapper);
+        List<StudentDTO> studentDTOS = studentService.findAll();
         assertNotNull(studentDTOS);
-        verify(studentRepository).findAll(any(Predicate.class));
-        verify(studentMapper).transform(any());
-        assertThat(studentDTOS.size(), is(1));
-        assertThat(studentDTOS.get(0).getId(), is(1));
+
+        verify(studentRepository).findAll();
+        verify(modelMapper).map(any(), eq(StudentDTO.class));
     }
 
     @Test
@@ -87,12 +83,78 @@ public class StudentServiceImplTest {
 
         Optional<Student> optionalStudent = Optional.of(student);
         when(studentRepository.findById(1)).thenReturn(optionalStudent);
-        when(studentMapper.transform(student)).thenReturn(studentDTO);
+        when(modelMapper.map(student, StudentDTO.class)).thenReturn(studentDTO);
 
         studentServiceImpl.findStudentById(1);
 
         verify(studentRepository).findById(1);
-        verify(studentMapper).transform(any());
+        verify(modelMapper).map(student, StudentDTO.class);
+
+    }
+
+    @Test
+    public void saveStudent() {
+
+        Student student = Student.builder()
+                .id(1)
+                .student_name("John Doe")
+                .student_email("johndoe@gmail.com")
+                .major(Major.builder().major_name("Marketing").build())
+                .build();
+        when(studentRepository.save(student)).thenReturn(student);
+
+        StudentDTO studentDTO = StudentDTO.builder()
+                .id(1)
+                .student_name("John Doe")
+                .student_email("johndoe@gmail.com")
+                .major(Major.builder().major_name("Marketing").build())
+                .build();
+        when(modelMapper.map(studentDTO, Student.class)).thenReturn(student);
+
+        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository, modelMapper);
+        studentService.saveStudent(studentDTO);
+
+        verify(studentRepository).save(student);
+        verify(modelMapper).map(student, StudentDTO.class);
+
+    }
+
+    @Test
+    public void deleteStudentById_OK() {
+
+        Student student = Student.builder()
+                .id(1)
+                .student_name("John Doe")
+                .student_email("johndoe@gmail.com")
+                .major(Major.builder().major_name("Marketing").build())
+                .build();
+        when(studentRepository.findById(1)).thenReturn(Optional.of(student));
+
+        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository, modelMapper);
+        boolean result = studentService.deleteStudentById(1);
+
+        verify(studentRepository).findById(1);
+        verify(studentRepository).deleteById(1);
+        assertEquals(result, true);
+
+    }
+
+    @Test
+    public void deleteStudentById_NOT_FOUND() {
+
+        Student student = Student.builder()
+                .id(1)
+                .student_name("John Doe")
+                .student_email("johndoe@gmail.com")
+                .major(Major.builder().major_name("Marketing").build())
+                .build();
+        when(studentRepository.findById(1)).thenReturn(Optional.empty());
+
+        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository, modelMapper);
+        boolean result = studentService.deleteStudentById(1);
+
+        verify(studentRepository).findById(1);
+        assertEquals(result, false);
 
     }
 

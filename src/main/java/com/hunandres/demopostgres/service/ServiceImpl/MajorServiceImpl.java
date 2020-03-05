@@ -50,7 +50,6 @@ public class MajorServiceImpl implements MajorService {
         }
 
         MajorDTO majorDTO = modelMapper.map(major, MajorDTO.class);
-
         return majorDTO;
     }
 }

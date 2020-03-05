@@ -40,7 +40,7 @@ public class CourseServiceImplTest {
 
         List<Course> courses = new ArrayList<>();
         courses.add(Course.builder()
-            .id("ACCTNG_2400")
+            .id(1)
             .course_name("Fundamentals of Financial Accounting")
             .department(Department.builder().id(1).department_name("Accounting").build())
             .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
@@ -48,7 +48,7 @@ public class CourseServiceImplTest {
         when(courseRepository.findAll()).thenReturn(courses);
 
         CourseDTO courseDTO = CourseDTO.builder()
-                .id("ACCTNG_2400")
+                .id(1)
                 .course_name("Fundamentals of Financial Accounting")
                 .build();
         when(modelMapper.map(any(), eq(CourseDTO.class))).thenReturn(courseDTO);
@@ -65,26 +65,53 @@ public class CourseServiceImplTest {
     public void findCourseById() {
 
         Course course = Course.builder()
-                .id("ACCTNG_2400")
+                .id(1)
                 .course_name("Fundamentals of Financial Accounting")
                 .department(Department.builder().id(1).department_name("Accounting").build())
                 .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
                 .build();
 
         CourseDTO courseDTO = CourseDTO.builder()
-                .id("ACCTNG_2400")
+                .id(1)
                 .course_name("Fundamentals of Financial Accounting")
                 .department(Department.builder().id(1).department_name("Accounting").build())
                 .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
                 .build();
 
         Optional<Course> optionalCourse = Optional.of(course);
-        when(courseRepository.findById("ACCTNG_2400")).thenReturn(optionalCourse);
+        when(courseRepository.findById(1)).thenReturn(optionalCourse);
         when(modelMapper.map(course, CourseDTO.class)).thenReturn(courseDTO);
 
-        courseService.findCourseById("ACCTNG_2400");
+        courseService.findCourseById(1);
 
-        verify(courseRepository).findById("ACCTNG_2400");
+        verify(courseRepository).findById(1);
+        verify(modelMapper).map(course, CourseDTO.class);
+
+    }
+
+    @Test
+    public void saveCourseTest() {
+
+        Course course = Course.builder()
+                .id(1)
+                .course_name("Fundamentals of Financial Accounting")
+                .department(Department.builder().id(1).department_name("Accounting").build())
+                .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
+                .build();
+        when(courseRepository.save(course)).thenReturn(course);
+
+        CourseDTO courseDTO = CourseDTO.builder()
+                .id(1)
+                .course_name("Fundamentals of Financial Accounting")
+                .department(Department.builder().id(1).department_name("Accounting").build())
+                .professor(Professor.builder().id(1).professor_name("Drake Perry").professor_email("drakeperry@gmail.com").build())
+                .build();
+        when(modelMapper.map(courseDTO, Course.class)).thenReturn(course);
+
+        CourseServiceImpl courseService = new CourseServiceImpl(courseRepository, modelMapper);
+        courseService.saveCourse(courseDTO);
+
+        verify(courseRepository).save(course);
         verify(modelMapper).map(course, CourseDTO.class);
 
     }

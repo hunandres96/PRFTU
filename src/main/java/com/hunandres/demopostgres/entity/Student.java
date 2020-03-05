@@ -21,7 +21,7 @@ public class Student {
 
     private String student_email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Major major;
 
 }

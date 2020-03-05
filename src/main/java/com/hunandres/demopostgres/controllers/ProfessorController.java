@@ -1,7 +1,6 @@
 package com.hunandres.demopostgres.controllers;
 
 import com.hunandres.demopostgres.dto.ProfessorDTO;
-import com.hunandres.demopostgres.dto.ProfessorSearchRequest;
 import com.hunandres.demopostgres.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,11 @@ public class ProfessorController {
 
 
     @GetMapping("/professors")
-    public List<ProfessorDTO> getProfessors(ProfessorSearchRequest professorSearchRequest) {
-        return professorService.findAll(professorSearchRequest);
+    public List<ProfessorDTO> getProfessors() {
+        return professorService.findAll();
     }
 
-    @GetMapping("/professor/{id}")
+    @GetMapping("/professors/{id}")
     public ProfessorDTO getProfessorById(@PathVariable int id) {
         return professorService.findProfessorById(id);
     }

@@ -48,4 +48,19 @@ public class MajorControllerTest {
 
     }
 
+    @Test
+    public void findMajorById() throws Exception {
+
+        MajorDTO majorDTO = MajorDTO.builder().id(1).major_name("Marketing").build();
+        when(majorService.findMajorById(1)).thenReturn(majorDTO);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/majors/1");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        verify(majorService, times(1)).findMajorById(1);
+        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+
+    }
+
 }

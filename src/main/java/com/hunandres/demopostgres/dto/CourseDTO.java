@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseDTO {
 
-    private String id;
-    private  String course_name;
+    private Integer id;
+    private String course_name;
     private Department department;
     private Professor professor;
 

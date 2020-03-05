@@ -1,12 +1,9 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
 import com.hunandres.demopostgres.dto.StudentDTO;
-import com.hunandres.demopostgres.dto.StudentSearchRequest;
 import com.hunandres.demopostgres.entity.Student;
-import com.hunandres.demopostgres.mapper.StudentMapper;
 import com.hunandres.demopostgres.repositories.StudentRepository;
 import com.hunandres.demopostgres.service.StudentService;
-import com.querydsl.core.BooleanBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,27 +16,22 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
-    private StudentMapper studentMapper;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper) {
+    public StudentServiceImpl(StudentRepository studentRepository, ModelMapper modelMapper) {
         this.studentRepository = studentRepository;
-        this.studentMapper = studentMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<StudentDTO> findAll(StudentSearchRequest studentSearchRequest) {
+    public List<StudentDTO> findAll() {
 
-        List<Student> students;
-
-        BooleanBuilder predicate = StudentRepository.searchPredicate(studentSearchRequest);
-
-        students = (List<Student>) studentRepository.findAll(predicate);
-
+        List<Student> students = (List<Student>) studentRepository.findAll();
         List<StudentDTO> studentDTOS = new ArrayList<>();
 
-        students.stream().forEach(student -> {
-            studentDTOS.add(studentMapper.transform(student));
+        students.stream().forEach(allStudents -> {
+            studentDTOS.add(modelMapper.map(allStudents, StudentDTO.class));
         });
 
         return studentDTOS;
@@ -50,16 +42,38 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO findStudentById(Integer id) {
 
         Optional<Student> studentOptional = studentRepository.findById(id);
+        Student student;
 
-        if (!studentOptional.isPresent()) {
+        if (studentOptional.isPresent()) {
+            student = studentOptional.get();
+        } else {
             throw new RuntimeException("Student with id: " + id + " was not found");
         }
 
-        StudentDTO studentDTO = studentMapper.transform(studentOptional.get());
+        StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
         return studentDTO;
-
-
 
     }
 
+    @Override
+    public StudentDTO saveStudent(StudentDTO studentDTO) {
+
+        Student student = modelMapper.map(studentDTO, Student.class);
+        student = studentRepository.save(student);
+        return modelMapper.map(student, StudentDTO.class);
+
+    }
+
+    @Override
+    public boolean deleteStudentById(Integer id) {
+
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+
+        if (optionalStudent.isPresent()) {
+            studentRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

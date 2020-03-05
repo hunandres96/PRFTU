@@ -4,8 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -16,7 +15,7 @@ public class Course {
 
     @Id
     @GeneratedValue
-    private String id;
+    private Integer id;
 
     private String course_name;
 

@@ -50,7 +50,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         DepartmentDTO departmentDTO = modelMapper.map(department, DepartmentDTO.class);
-
         return departmentDTO;
     }
 }

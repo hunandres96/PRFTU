@@ -38,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO findCourseById(String id) {
+    public CourseDTO findCourseById(Integer id) {
 
         Optional<Course> result = courseRepository.findById(id);
         Course course;
@@ -50,7 +50,15 @@ public class CourseServiceImpl implements CourseService {
         }
 
         CourseDTO courseDTO = modelMapper.map(course, CourseDTO.class);
-
         return courseDTO;
+    }
+
+    @Override
+    public CourseDTO saveCourse(CourseDTO courseDTO) {
+
+        Course course = modelMapper.map(courseDTO, Course.class);
+        course = courseRepository.save(course);
+        return modelMapper.map(course, CourseDTO.class);
+
     }
 }

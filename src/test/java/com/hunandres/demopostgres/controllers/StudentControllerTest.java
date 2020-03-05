@@ -1,5 +1,6 @@
 package com.hunandres.demopostgres.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hunandres.demopostgres.dto.StudentDTO;
 import com.hunandres.demopostgres.service.StudentService;
 import org.junit.Test;
@@ -41,13 +42,13 @@ public class StudentControllerTest {
             .student_name("Miguel Hun")
             .student_email("miguelhun@umsl.edu")
             .build());
-        when(studentService.findAll(any())).thenReturn(studentDTOS);
+        when(studentService.findAll()).thenReturn(studentDTOS);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/students");
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
-        verify(studentService, times(1)).findAll(any());
+        verify(studentService, times(1)).findAll();
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
 
     }
@@ -62,12 +63,63 @@ public class StudentControllerTest {
                 .build();
         when(studentService.findStudentById(1)).thenReturn(studentDTO);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/student/1");
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/students/1");
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
         verify(studentService, times(1)).findStudentById(1);
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+
+    }
+
+    @Test
+    public void saveStudent() throws Exception {
+
+        StudentDTO studentDTO = StudentDTO.builder()
+                .id(1)
+                .student_name("Miguel Hun")
+                .student_email("miguelhun@umsl.edu")
+                .build();
+        when(studentService.saveStudent(studentDTO)).thenReturn(studentDTO);
+
+        // turn DTO into JSON string
+        ObjectMapper objectMapper = new ObjectMapper();
+        String string = objectMapper.writeValueAsString(studentDTO);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/students").content(string).contentType("application/json");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        verify(studentService, times(1)).saveStudent(studentDTO);
+        assertEquals(HttpStatus.CREATED.value(), mockHttpServletResponse.getStatus());
+
+    }
+
+    @Test
+    public void deleteStudentById_OK() throws Exception {
+
+        when(studentService.deleteStudentById(1)).thenReturn(true);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/students/1");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        verify(studentService, times(1)).deleteStudentById(1);
+        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+
+    }
+
+    @Test
+    public void deleteStudentById_NOT_FOUND() throws Exception {
+
+        when(studentService.deleteStudentById(1)).thenReturn(false);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/students/1");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        verify(studentService, times(1)).deleteStudentById(1);
+        assertEquals(HttpStatus.NOT_FOUND.value(), mockHttpServletResponse.getStatus());
 
     }
 

@@ -1,12 +1,9 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
 import com.hunandres.demopostgres.dto.ProfessorDTO;
-import com.hunandres.demopostgres.dto.ProfessorSearchRequest;
 import com.hunandres.demopostgres.entity.Professor;
-import com.hunandres.demopostgres.mapper.ProfessorMapper;
 import com.hunandres.demopostgres.repositories.ProfessorRepository;
 import com.hunandres.demopostgres.service.ProfessorService;
-import com.querydsl.core.BooleanBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,27 +16,22 @@ import java.util.Optional;
 public class ProfessorServiceImpl implements ProfessorService {
 
     private ProfessorRepository professorRepository;
-    private ProfessorMapper professorMapper;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public ProfessorServiceImpl(ProfessorRepository professorRepository, ProfessorMapper professorMapper) {
+    public ProfessorServiceImpl(ProfessorRepository professorRepository, ModelMapper modelMapper) {
         this.professorRepository = professorRepository;
-        this.professorMapper = professorMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<ProfessorDTO> findAll(ProfessorSearchRequest professorSearchRequest) {
+    public List<ProfessorDTO> findAll() {
 
-        List<Professor> professors;
-
-        BooleanBuilder predicate = ProfessorRepository.searchPredicate(professorSearchRequest);
-
-        professors = (List<Professor>) professorRepository.findAll(predicate);
-
+        List<Professor> professors = (List<Professor>) professorRepository.findAll();
         List<ProfessorDTO> professorDTOS = new ArrayList<>();
 
-        professors.stream().forEach(professor -> {
-            professorDTOS.add(professorMapper.transform(professor));
+        professors.stream().forEach(allProfessors -> {
+            professorDTOS.add(modelMapper.map(allProfessors, ProfessorDTO.class));
         });
 
         return professorDTOS;
@@ -57,8 +49,7 @@ public class ProfessorServiceImpl implements ProfessorService {
             throw new RuntimeException("Professor with id: " + id + " was not found");
         }
 
-        ProfessorDTO professorDTO = professorMapper.transform(result.get());
-
+        ProfessorDTO professorDTO = modelMapper.map(professor, ProfessorDTO.class);
         return professorDTO;
     }
 }

@@ -24,7 +24,7 @@ public class MajorController {
         return majorService.findAll();
     }
 
-    @GetMapping("/major/{id}")
+    @GetMapping("/majors/{id}")
     public MajorDTO getMajorById(@PathVariable int id) {
         return majorService.findMajorById(id);
     }

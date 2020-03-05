@@ -44,13 +44,13 @@ public class ProfessorControllerTest {
             .professor_name("Drake Perry")
             .professor_email("drakeperry@umsl.edu")
             .build());
-        when(professorService.findAll(any())).thenReturn(professorDTOS);
+        when(professorService.findAll()).thenReturn(professorDTOS);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/professors");
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
-        verify(professorService, times(1)).findAll(any());
+        verify(professorService, times(1)).findAll();
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
 
     }
@@ -65,7 +65,7 @@ public class ProfessorControllerTest {
                 .build();
         when(professorService.findProfessorById(1)).thenReturn(professorDTO);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/professor/1");
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/professors/1");
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
