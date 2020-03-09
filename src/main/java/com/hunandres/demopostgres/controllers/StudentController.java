@@ -3,7 +3,7 @@ package com.hunandres.demopostgres.controllers;
 import com.hunandres.demopostgres.dto.StudentDTO;
 import com.hunandres.demopostgres.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +16,11 @@ public class StudentController {
 
     private StudentService studentService;
 
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
     @GetMapping("/students")
     private List<StudentDTO> getStudents() {
         return studentService.findAll();
@@ -27,23 +32,13 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<StudentDTO> saveStudent(@RequestBody StudentDTO studentDTO) throws Exception {
-
-        StudentDTO result = studentService.saveStudent(studentDTO);
-        return ResponseEntity.created(new URI("localhost:8080/students" + result.getId())).body(result);
-
+    public StudentDTO saveStudent(@RequestBody StudentDTO studentDTO) throws Exception {
+        return studentService.saveStudent(studentDTO);
     }
 
     @DeleteMapping("/students/{id}")
-    public ResponseEntity<HttpStatus> deleteStudentById(@PathVariable Integer id) {
-
-        boolean result = studentService.deleteStudentById(id);
-
-        if (result) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public void deleteStudentById(@PathVariable Integer id) {
+        studentService.deleteStudentById(id);
     }
 
 }

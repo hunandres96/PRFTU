@@ -120,7 +120,7 @@ public class StudentServiceImplTest {
     }
 
     @Test
-    public void deleteStudentById_OK() {
+    public void deleteStudentById() {
 
         Student student = Student.builder()
                 .id(1)
@@ -130,31 +130,10 @@ public class StudentServiceImplTest {
                 .build();
         when(studentRepository.findById(1)).thenReturn(Optional.of(student));
 
-        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository, modelMapper);
-        boolean result = studentService.deleteStudentById(1);
+        studentServiceImpl.deleteStudentById(1);
 
         verify(studentRepository).findById(1);
         verify(studentRepository).deleteById(1);
-        assertEquals(result, true);
-
-    }
-
-    @Test
-    public void deleteStudentById_NOT_FOUND() {
-
-        Student student = Student.builder()
-                .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
-                .build();
-        when(studentRepository.findById(1)).thenReturn(Optional.empty());
-
-        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository, modelMapper);
-        boolean result = studentService.deleteStudentById(1);
-
-        verify(studentRepository).findById(1);
-        assertEquals(result, false);
 
     }
 

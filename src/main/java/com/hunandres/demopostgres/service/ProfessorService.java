@@ -8,5 +8,7 @@ public interface ProfessorService {
 
     List<ProfessorDTO> findAll();
     ProfessorDTO findProfessorById(Integer id);
+    ProfessorDTO saveProfessor(ProfessorDTO professorDTO);
+    void deleteProfessorById(Integer id);
 
 }

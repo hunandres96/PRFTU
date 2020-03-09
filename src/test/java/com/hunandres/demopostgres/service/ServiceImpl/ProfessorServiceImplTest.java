@@ -87,4 +87,46 @@ public class ProfessorServiceImplTest {
 
     }
 
+    @Test
+    public void saveProfessor() {
+
+        Professor professor = Professor.builder()
+                .id(1)
+                .professor_name("Drake Perry")
+                .professor_email("drakeperry@umsl.edu")
+                .build();
+        when(professorRepository.save(professor)).thenReturn(professor);
+
+        ProfessorDTO professorDTO = ProfessorDTO.builder()
+                .id(1)
+                .professor_name("Drake Perry")
+                .professor_email("drakeperry@umsl.edu")
+                .build();
+        when(modelMapper.map(professorDTO, Professor.class)).thenReturn(professor);
+
+        ProfessorServiceImpl professorService = new ProfessorServiceImpl(professorRepository, modelMapper);
+        professorService.saveProfessor(professorDTO);
+
+        verify(professorRepository).save(professor);
+        verify(modelMapper).map(professor, ProfessorDTO.class);
+
+    }
+
+    @Test
+    public void deleteProfessorById() {
+
+        Professor professor = Professor.builder()
+                .id(1)
+                .professor_name("Drake Perry")
+                .professor_email("drakeperry@umsl.edu")
+                .build();
+        when(professorRepository.findById(1)).thenReturn(Optional.of(professor));
+
+        professorServiceImpl.deleteProfessorById(1);
+
+        verify(professorRepository).findById(1);
+        verify(professorRepository).deleteById(1);
+
+    }
+
 }

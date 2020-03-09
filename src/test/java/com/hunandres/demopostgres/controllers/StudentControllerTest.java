@@ -91,14 +91,11 @@ public class StudentControllerTest {
         MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 
         verify(studentService, times(1)).saveStudent(studentDTO);
-        assertEquals(HttpStatus.CREATED.value(), mockHttpServletResponse.getStatus());
 
     }
 
     @Test
-    public void deleteStudentById_OK() throws Exception {
-
-        when(studentService.deleteStudentById(1)).thenReturn(true);
+    public void deleteStudentById() throws Exception {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/students/1");
         MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
@@ -106,20 +103,6 @@ public class StudentControllerTest {
 
         verify(studentService, times(1)).deleteStudentById(1);
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
-
-    }
-
-    @Test
-    public void deleteStudentById_NOT_FOUND() throws Exception {
-
-        when(studentService.deleteStudentById(1)).thenReturn(false);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/students/1");
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-
-        verify(studentService, times(1)).deleteStudentById(1);
-        assertEquals(HttpStatus.NOT_FOUND.value(), mockHttpServletResponse.getStatus());
 
     }
 

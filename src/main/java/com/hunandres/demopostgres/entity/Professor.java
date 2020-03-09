@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Professor {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "professor_name")

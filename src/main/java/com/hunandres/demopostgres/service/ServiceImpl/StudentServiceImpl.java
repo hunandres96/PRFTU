@@ -4,6 +4,8 @@ import com.hunandres.demopostgres.dto.StudentDTO;
 import com.hunandres.demopostgres.entity.Student;
 import com.hunandres.demopostgres.repositories.StudentRepository;
 import com.hunandres.demopostgres.service.StudentService;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class StudentServiceImpl implements StudentService {
 
     private StudentRepository studentRepository;
@@ -65,15 +68,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public boolean deleteStudentById(Integer id) {
+    public void deleteStudentById(Integer id) {
 
         Optional<Student> optionalStudent = studentRepository.findById(id);
 
         if (optionalStudent.isPresent()) {
             studentRepository.deleteById(id);
-            return true;
         } else {
-            return false;
+            throw new RuntimeException();
         }
     }
 }

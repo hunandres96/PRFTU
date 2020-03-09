@@ -9,6 +9,6 @@ public interface StudentService {
     List<StudentDTO> findAll();
     StudentDTO findStudentById(Integer id);
     StudentDTO saveStudent(StudentDTO studentDTO);
-    boolean deleteStudentById(Integer id);
+    void deleteStudentById(Integer id);
 
 }

@@ -28,17 +28,15 @@ public class ProfessorController {
         return professorService.findProfessorById(id);
     }
 
-//    @PostMapping("/professor")
-//    public String saveProfessor(@RequestBody Professor professor) {
-//        repository.save(professor);
-//        return "Added professor with id: " + professor.getId();
-//    }
-//
-//    @DeleteMapping("/professor/{id}")
-//    public String deleteProfessor(@PathVariable int id) {
-//        repository.deleteById(id);
-//        return "Professor with id: " + id + " has been deleted";
-//    }
+    @PostMapping("/professors")
+    public ProfessorDTO saveProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
+        return professorService.saveProfessor(professorDTO);
+    }
+
+    @DeleteMapping("/professors/{id}")
+    public void deleteProfessor(@PathVariable int id) {
+        professorService.deleteProfessorById(id);
+    }
 
 }
 

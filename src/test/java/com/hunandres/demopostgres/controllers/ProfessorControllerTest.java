@@ -1,7 +1,9 @@
 package com.hunandres.demopostgres.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hunandres.demopostgres.dto.ProfessorDTO;
 import com.hunandres.demopostgres.service.ProfessorService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,39 @@ public class ProfessorControllerTest {
 
         verify(professorService, times(1)).findProfessorById(1);
         assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+    }
+
+    @Test
+    public void saveProfessor() throws Exception {
+
+        ProfessorDTO professorDTO = ProfessorDTO.builder()
+                .id(1)
+                .professor_name("John Doe")
+                .professor_email("johndoe@gmail.com")
+                .build();
+        when(professorService.saveProfessor(professorDTO)).thenReturn(professorDTO);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String string = objectMapper.writeValueAsString(professorDTO);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/professors").content(string).contentType("application/json");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        verify(professorService, times(1)).saveProfessor(professorDTO);
+
+    }
+
+    @Test
+    public void deleteProfessorById() throws Exception {
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/professors/1");
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+
+        verify(professorService, times(1)).deleteProfessorById(1);
+        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+
     }
 
 }

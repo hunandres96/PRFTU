@@ -52,4 +52,26 @@ public class ProfessorServiceImpl implements ProfessorService {
         ProfessorDTO professorDTO = modelMapper.map(professor, ProfessorDTO.class);
         return professorDTO;
     }
+
+    @Override
+    public ProfessorDTO saveProfessor(ProfessorDTO professorDTO) {
+
+        Professor professor = modelMapper.map(professorDTO, Professor.class);
+        professor = professorRepository.save(professor);
+        return modelMapper.map(professor, ProfessorDTO.class);
+
+    }
+
+    @Override
+    public void deleteProfessorById(Integer id) {
+
+        Optional<Professor> optionalProfessor = professorRepository.findById(id);
+
+        if (optionalProfessor.isPresent()) {
+            professorRepository.deleteById(id);
+        } else {
+            throw new RuntimeException();
+        }
+
+    }
 }
