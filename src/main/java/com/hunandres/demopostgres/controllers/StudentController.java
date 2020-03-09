@@ -22,8 +22,12 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    private List<StudentDTO> getStudents() {
-        return studentService.findAll();
+    private List<StudentDTO> getStudents(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return studentService.findAll(pageNo, pageSize, sortBy);
     }
 
     @GetMapping("/students/{id}")

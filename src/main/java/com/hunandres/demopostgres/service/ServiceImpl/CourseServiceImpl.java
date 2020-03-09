@@ -6,6 +6,10 @@ import com.hunandres.demopostgres.repositories.CourseRepository;
 import com.hunandres.demopostgres.service.CourseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,16 +29,20 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> findAll() {
+    public List<CourseDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-        List<Course> courses = (List<Course>) courseRepository.findAll();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Course> coursePage = courseRepository.findAll(pageable);
+
         List<CourseDTO> courseDTOS = new ArrayList<>();
 
-        courses.stream().forEach(allCourses -> {
+        coursePage.stream().forEach(allCourses -> {
             courseDTOS.add(modelMapper.map(allCourses, CourseDTO.class));
         });
 
         return courseDTOS;
+
     }
 
     @Override
@@ -59,6 +67,19 @@ public class CourseServiceImpl implements CourseService {
         Course course = modelMapper.map(courseDTO, Course.class);
         course = courseRepository.save(course);
         return modelMapper.map(course, CourseDTO.class);
+
+    }
+
+    @Override
+    public void deleteCourseById(Integer id) {
+
+        Optional<Course> optionalCourse = courseRepository.findById(id);
+
+        if (optionalCourse.isPresent()) {
+            courseRepository.deleteById(id);
+        } else {
+            throw new RuntimeException();
+        }
 
     }
 }

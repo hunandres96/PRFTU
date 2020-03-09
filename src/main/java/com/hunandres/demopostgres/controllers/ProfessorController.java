@@ -19,8 +19,12 @@ public class ProfessorController {
 
 
     @GetMapping("/professors")
-    public List<ProfessorDTO> getProfessors() {
-        return professorService.findAll();
+    public List<ProfessorDTO> getProfessors(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return professorService.findAll(pageNo, pageSize, sortBy);
     }
 
     @GetMapping("/professors/{id}")

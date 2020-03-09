@@ -6,6 +6,10 @@ import com.hunandres.demopostgres.repositories.ProfessorRepository;
 import com.hunandres.demopostgres.service.ProfessorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,12 +29,15 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
-    public List<ProfessorDTO> findAll() {
+    public List<ProfessorDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-        List<Professor> professors = (List<Professor>) professorRepository.findAll();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Professor> professorPage = professorRepository.findAll(pageable);
+
         List<ProfessorDTO> professorDTOS = new ArrayList<>();
 
-        professors.stream().forEach(allProfessors -> {
+        professorPage.stream().forEach(allProfessors -> {
             professorDTOS.add(modelMapper.map(allProfessors, ProfessorDTO.class));
         });
 

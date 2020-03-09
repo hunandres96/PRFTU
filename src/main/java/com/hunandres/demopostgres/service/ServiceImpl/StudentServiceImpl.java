@@ -1,6 +1,7 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
 import com.hunandres.demopostgres.dto.StudentDTO;
+import com.hunandres.demopostgres.entity.Professor;
 import com.hunandres.demopostgres.entity.Student;
 import com.hunandres.demopostgres.repositories.StudentRepository;
 import com.hunandres.demopostgres.service.StudentService;
@@ -8,6 +9,10 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,12 +33,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> findAll() {
+    public List<StudentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-        List<Student> students = (List<Student>) studentRepository.findAll();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+
         List<StudentDTO> studentDTOS = new ArrayList<>();
 
-        students.stream().forEach(allStudents -> {
+        studentPage.stream().forEach(allStudents -> {
             studentDTOS.add(modelMapper.map(allStudents, StudentDTO.class));
         });
 
