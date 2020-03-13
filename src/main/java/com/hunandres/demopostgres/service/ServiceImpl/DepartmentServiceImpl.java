@@ -1,11 +1,17 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
+import com.hunandres.demopostgres.dto.CourseDTO;
 import com.hunandres.demopostgres.dto.DepartmentDTO;
+import com.hunandres.demopostgres.entity.Course;
 import com.hunandres.demopostgres.entity.Department;
 import com.hunandres.demopostgres.repositories.DepartmentRepository;
 import com.hunandres.demopostgres.service.DepartmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,9 +31,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDTO> findAll() {
+    public List<DepartmentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-        List<Department> departments = (List<Department>) departmentRepository.findAll();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Department> departments = departmentRepository.findAll(pageable);
+
         List<DepartmentDTO> departmentDTOS = new ArrayList<>();
 
         departments.stream().forEach(allDepartments -> {

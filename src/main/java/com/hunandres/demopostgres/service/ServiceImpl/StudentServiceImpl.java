@@ -1,6 +1,8 @@
 package com.hunandres.demopostgres.service.ServiceImpl;
 
+import com.hunandres.demopostgres.dto.MajorDTO;
 import com.hunandres.demopostgres.dto.StudentDTO;
+import com.hunandres.demopostgres.entity.Major;
 import com.hunandres.demopostgres.entity.Professor;
 import com.hunandres.demopostgres.entity.Student;
 import com.hunandres.demopostgres.repositories.StudentRepository;

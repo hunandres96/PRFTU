@@ -3,7 +3,6 @@ package com.hunandres.demopostgres.controllers;
 import com.hunandres.demopostgres.dto.CourseDTO;
 import com.hunandres.demopostgres.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +10,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/courses")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CourseController {
 
     private CourseService courseService;
@@ -20,7 +21,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @GetMapping("/courses")
+    @GetMapping
     public List<CourseDTO> getCourses(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
@@ -29,12 +30,12 @@ public class CourseController {
         return courseService.findAll(pageNo, pageSize, sortBy);
     }
 
-    @GetMapping("/courses/{id}")
+    @GetMapping("/{id}")
     public CourseDTO getCourseById(@PathVariable Integer id) {
         return courseService.findCourseById(id);
     }
 
-    @PostMapping("/courses")
+    @PostMapping
     public ResponseEntity<CourseDTO> saveCourse(@RequestBody CourseDTO courseDTO) throws Exception {
 
         CourseDTO result = courseService.saveCourse(courseDTO);
@@ -42,7 +43,7 @@ public class CourseController {
 
     }
 
-    @DeleteMapping("/courses/{id}")
+    @DeleteMapping("/{id}")
     public void deleteCourseById(@PathVariable Integer id) {
         courseService.deleteCourseById(id);
     }

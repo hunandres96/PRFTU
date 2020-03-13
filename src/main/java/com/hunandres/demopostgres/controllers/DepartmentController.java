@@ -3,13 +3,13 @@ package com.hunandres.demopostgres.controllers;
 import com.hunandres.demopostgres.dto.DepartmentDTO;
 import com.hunandres.demopostgres.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/departments")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DepartmentController {
 
     private DepartmentService departmentService;
@@ -19,12 +19,16 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/departments")
-    public List<DepartmentDTO> getDepartments() {
-        return departmentService.findAll();
+    @GetMapping
+    public List<DepartmentDTO> getDepartments(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return departmentService.findAll(pageNo, pageSize, sortBy);
     }
 
-    @GetMapping("departments/{id}")
+    @GetMapping("/{id}")
     public DepartmentDTO getDepartmentById(@PathVariable int id) {
         return departmentService.findDepartmentById(id);
     }

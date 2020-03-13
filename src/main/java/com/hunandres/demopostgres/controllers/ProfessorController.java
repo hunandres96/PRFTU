@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/professors")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProfessorController {
 
     private ProfessorService professorService;
@@ -18,7 +20,7 @@ public class ProfessorController {
     }
 
 
-    @GetMapping("/professors")
+    @GetMapping
     public List<ProfessorDTO> getProfessors(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
@@ -27,17 +29,17 @@ public class ProfessorController {
         return professorService.findAll(pageNo, pageSize, sortBy);
     }
 
-    @GetMapping("/professors/{id}")
+    @GetMapping("/{id}")
     public ProfessorDTO getProfessorById(@PathVariable int id) {
         return professorService.findProfessorById(id);
     }
 
-    @PostMapping("/professors")
-    public ProfessorDTO saveProfessor(@RequestBody ProfessorDTO professorDTO) throws Exception {
+    @PostMapping
+    public ProfessorDTO saveProfessor(@RequestBody ProfessorDTO professorDTO) {
         return professorService.saveProfessor(professorDTO);
     }
 
-    @DeleteMapping("/professors/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProfessor(@PathVariable int id) {
         professorService.deleteProfessorById(id);
     }
