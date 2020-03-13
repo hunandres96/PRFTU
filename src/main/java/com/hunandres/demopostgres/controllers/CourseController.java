@@ -10,6 +10,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/courses")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CourseController {
 
     private CourseService courseService;
@@ -19,17 +21,17 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @GetMapping("/courses")
+    @GetMapping
     public List<CourseDTO> getCourses() {
         return courseService.findAll();
     }
 
-    @GetMapping("/courses/{id}")
+    @GetMapping("/{id}")
     public CourseDTO getCourseById(@PathVariable Integer id) {
         return courseService.findCourseById(id);
     }
 
-    @PostMapping("/courses")
+    @PostMapping
     public ResponseEntity<CourseDTO> saveCourse(@RequestBody CourseDTO courseDTO) throws Exception {
 
         CourseDTO result = courseService.saveCourse(courseDTO);
