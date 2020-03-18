@@ -3,6 +3,7 @@ package com.hunandres.demopostgres.controllers;
 import com.hunandres.demopostgres.dto.StudentDTO;
 import com.hunandres.demopostgres.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +21,10 @@ public class StudentController {
     }
 
     @GetMapping
-    private List<StudentDTO> getStudents(
+    private Page<StudentDTO> getStudents(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy
+            @RequestParam(defaultValue = "name") String sortBy
     ) {
         return studentService.findAll(pageNo, pageSize, sortBy);
     }

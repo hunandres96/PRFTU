@@ -1,8 +1,6 @@
-package com.hunandres.demopostgres.service.ServiceImpl;
+package com.hunandres.demopostgres.service.impl;
 
-import com.hunandres.demopostgres.dto.CourseDTO;
 import com.hunandres.demopostgres.dto.DepartmentDTO;
-import com.hunandres.demopostgres.entity.Course;
 import com.hunandres.demopostgres.entity.Department;
 import com.hunandres.demopostgres.repositories.DepartmentRepository;
 import com.hunandres.demopostgres.service.DepartmentService;

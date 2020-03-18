@@ -19,10 +19,10 @@ public class Student {
     private Integer id;
 
     @Column(name = "student_name")
-    private String student_name;
+    private String name;
 
     @Column(name = "student_email")
-    private String student_email;
+    private String email;
 
     @ManyToOne
     private Major major;

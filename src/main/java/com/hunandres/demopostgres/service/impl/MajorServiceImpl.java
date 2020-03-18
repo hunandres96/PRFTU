@@ -1,4 +1,4 @@
-package com.hunandres.demopostgres.service.ServiceImpl;
+package com.hunandres.demopostgres.service.impl;
 
 import com.hunandres.demopostgres.dto.MajorDTO;
 import com.hunandres.demopostgres.entity.Major;

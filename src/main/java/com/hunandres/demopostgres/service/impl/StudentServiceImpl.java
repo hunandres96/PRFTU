@@ -1,20 +1,13 @@
-package com.hunandres.demopostgres.service.ServiceImpl;
+package com.hunandres.demopostgres.service.impl;
 
-import com.hunandres.demopostgres.dto.MajorDTO;
 import com.hunandres.demopostgres.dto.StudentDTO;
-import com.hunandres.demopostgres.entity.Major;
-import com.hunandres.demopostgres.entity.Professor;
 import com.hunandres.demopostgres.entity.Student;
 import com.hunandres.demopostgres.repositories.StudentRepository;
 import com.hunandres.demopostgres.service.StudentService;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,7 +28,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public Page<StudentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
@@ -47,7 +40,9 @@ public class StudentServiceImpl implements StudentService {
             studentDTOS.add(modelMapper.map(allStudents, StudentDTO.class));
         });
 
-        return studentDTOS;
+        Page<StudentDTO> dtoPage = new PageImpl<StudentDTO>(studentDTOS, pageable, studentPage.getTotalElements());
+
+        return dtoPage;
 
     }
 
@@ -70,9 +65,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO saveStudent(StudentDTO studentDTO) {
+        log.debug(studentDTO.toString());
 
         Student student = modelMapper.map(studentDTO, Student.class);
         student = studentRepository.save(student);
+
+        log.debug(student.toString());
+
         return modelMapper.map(student, StudentDTO.class);
 
     }
