@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class MajorDTO {
 
     private Integer id;
-    private String major_name;
+    private String name;
 
 }
