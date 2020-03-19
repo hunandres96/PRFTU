@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class ProfessorDTO {
 
     private Integer id;
-    private String professor_name;
-    private String professor_email;
+    private String name;
+    private String email;
     private Department department;
 
 }

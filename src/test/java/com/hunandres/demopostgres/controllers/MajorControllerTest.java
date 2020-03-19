@@ -36,7 +36,7 @@ public class MajorControllerTest {
     public void findAllMajorsTest() throws Exception {
 
         List<MajorDTO> majorDTOS = new ArrayList<>();
-        majorDTOS.add(MajorDTO.builder().id(1).major_name("Accounting").build());
+        majorDTOS.add(MajorDTO.builder().id(1).name("Accounting").build());
         when(majorService.findAll()).thenReturn(majorDTOS);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/majors");
@@ -51,7 +51,7 @@ public class MajorControllerTest {
     @Test
     public void findMajorById() throws Exception {
 
-        MajorDTO majorDTO = MajorDTO.builder().id(1).major_name("Marketing").build();
+        MajorDTO majorDTO = MajorDTO.builder().id(1).name("Marketing").build();
         when(majorService.findMajorById(1)).thenReturn(majorDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/majors/1");

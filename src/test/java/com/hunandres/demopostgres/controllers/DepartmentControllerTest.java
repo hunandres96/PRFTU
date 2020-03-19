@@ -36,7 +36,7 @@ public class DepartmentControllerTest {
     public void findAllDepartmentsTest() throws Exception {
 
         List<DepartmentDTO> departmentDTOS = new ArrayList<>();
-        departmentDTOS.add(DepartmentDTO.builder().id(1).department_name("Marketing").build());
+        departmentDTOS.add(DepartmentDTO.builder().id(1).name("Marketing").build());
         when(departmentService.findAll()).thenReturn(departmentDTOS);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/departments");
@@ -51,7 +51,7 @@ public class DepartmentControllerTest {
     @Test
     public void findDepartmentById() throws Exception {
 
-        DepartmentDTO departmentDTO = DepartmentDTO.builder().id(1).department_name("Marketing").build();
+        DepartmentDTO departmentDTO = DepartmentDTO.builder().id(1).name("Marketing").build();
         when(departmentService.findDepartmentById(1)).thenReturn(departmentDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/departments/1");

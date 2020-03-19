@@ -43,8 +43,8 @@ public class ProfessorControllerTest {
         List<ProfessorDTO> professorDTOS = new ArrayList<>();
         professorDTOS.add(ProfessorDTO.builder()
             .id(1)
-            .professor_name("Drake Perry")
-            .professor_email("drakeperry@umsl.edu")
+            .name("Drake Perry")
+            .email("drakeperry@umsl.edu")
             .build());
         when(professorService.findAll()).thenReturn(professorDTOS);
 
@@ -62,8 +62,8 @@ public class ProfessorControllerTest {
 
         ProfessorDTO professorDTO = ProfessorDTO.builder()
                 .id(1)
-                .professor_name("John Doe")
-                .professor_email("johndoe@gmail.com")
+                .name("John Doe")
+                .email("johndoe@gmail.com")
                 .build();
         when(professorService.findProfessorById(1)).thenReturn(professorDTO);
 
@@ -80,8 +80,8 @@ public class ProfessorControllerTest {
 
         ProfessorDTO professorDTO = ProfessorDTO.builder()
                 .id(1)
-                .professor_name("John Doe")
-                .professor_email("johndoe@gmail.com")
+                .name("John Doe")
+                .email("johndoe@gmail.com")
                 .build();
         when(professorService.saveProfessor(professorDTO)).thenReturn(professorDTO);
 

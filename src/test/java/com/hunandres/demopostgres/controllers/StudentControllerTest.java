@@ -39,8 +39,8 @@ public class StudentControllerTest {
         List<StudentDTO> studentDTOS = new ArrayList<>();
         studentDTOS.add(StudentDTO.builder()
             .id(1)
-            .student_name("Miguel Hun")
-            .student_email("miguelhun@umsl.edu")
+            .name("Miguel Hun")
+            .email("miguelhun@umsl.edu")
             .build());
         when(studentService.findAll()).thenReturn(studentDTOS);
 
@@ -58,8 +58,8 @@ public class StudentControllerTest {
 
         StudentDTO studentDTO = StudentDTO.builder()
                 .id(1)
-                .student_name("Miguel Hun")
-                .student_email("miguelhun@umsl.edu")
+                .name("Miguel Hun")
+                .email("miguelhun@umsl.edu")
                 .build();
         when(studentService.findStudentById(1)).thenReturn(studentDTO);
 
@@ -77,8 +77,8 @@ public class StudentControllerTest {
 
         StudentDTO studentDTO = StudentDTO.builder()
                 .id(1)
-                .student_name("Miguel Hun")
-                .student_email("miguelhun@umsl.edu")
+                .name("Miguel Hun")
+                .email("miguelhun@umsl.edu")
                 .build();
         when(studentService.saveStudent(studentDTO)).thenReturn(studentDTO);
 

@@ -40,9 +40,9 @@ public class StudentServiceImplTest {
         List<Student> students = new ArrayList<>();
         Student student = Student.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
         students.add(student);
 
@@ -50,9 +50,9 @@ public class StudentServiceImplTest {
 
         StudentDTO studentDTO = StudentDTO.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
         when(modelMapper.map(any(), eq(StudentDTO.class))).thenReturn(studentDTO);
 
@@ -69,16 +69,16 @@ public class StudentServiceImplTest {
 
         Student student = Student.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
 
         StudentDTO studentDTO = StudentDTO.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
 
         Optional<Student> optionalStudent = Optional.of(student);
@@ -97,17 +97,17 @@ public class StudentServiceImplTest {
 
         Student student = Student.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
         when(studentRepository.save(student)).thenReturn(student);
 
         StudentDTO studentDTO = StudentDTO.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
         when(modelMapper.map(studentDTO, Student.class)).thenReturn(student);
 
@@ -124,9 +124,9 @@ public class StudentServiceImplTest {
 
         Student student = Student.builder()
                 .id(1)
-                .student_name("John Doe")
-                .student_email("johndoe@gmail.com")
-                .major(Major.builder().major_name("Marketing").build())
+                .name("John Doe")
+                .email("johndoe@gmail.com")
+                .major(Major.builder().name("Marketing").build())
                 .build();
         when(studentRepository.findById(1)).thenReturn(Optional.of(student));
 

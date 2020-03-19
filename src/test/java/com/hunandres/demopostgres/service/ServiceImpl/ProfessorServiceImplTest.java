@@ -39,17 +39,17 @@ public class ProfessorServiceImplTest {
         List<Professor> professors = new ArrayList<>();
         Professor professor = Professor.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
-                .department(Department.builder().department_name("Marketing").build())
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
+                .department(Department.builder().name("Marketing").build())
                 .build();
         professors.add(professor);
         when(professorRepository.findAll()).thenReturn(professors);
 
         ProfessorDTO professorDTO = ProfessorDTO.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
                 .build();
         when(modelMapper.map(any(), eq(ProfessorDTO.class))).thenReturn(professorDTO);
 
@@ -66,14 +66,14 @@ public class ProfessorServiceImplTest {
 
         Professor professor = Professor.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
                 .build();
 
         ProfessorDTO professorDTO = ProfessorDTO.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
                 .build();
 
         Optional<Professor> optionalProfessor = Optional.of(professor);
@@ -92,15 +92,15 @@ public class ProfessorServiceImplTest {
 
         Professor professor = Professor.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
                 .build();
         when(professorRepository.save(professor)).thenReturn(professor);
 
         ProfessorDTO professorDTO = ProfessorDTO.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
                 .build();
         when(modelMapper.map(professorDTO, Professor.class)).thenReturn(professor);
 
@@ -117,8 +117,8 @@ public class ProfessorServiceImplTest {
 
         Professor professor = Professor.builder()
                 .id(1)
-                .professor_name("Drake Perry")
-                .professor_email("drakeperry@umsl.edu")
+                .name("Drake Perry")
+                .email("drakeperry@umsl.edu")
                 .build();
         when(professorRepository.findById(1)).thenReturn(Optional.of(professor));
 

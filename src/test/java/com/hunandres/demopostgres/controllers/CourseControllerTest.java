@@ -41,9 +41,9 @@ public class CourseControllerTest {
         List<CourseDTO> courseDTOS = new ArrayList<>();
         courseDTOS.add(CourseDTO.builder()
                 .id(1)
-                .course_name("Data Programming")
-                .department(Department.builder().id(1).department_name("Information System").build())
-                .professor(Professor.builder().id(1).professor_name("Vivek Singh").professor_email("vivek@gmail.com").build())
+                .name("Data Programming")
+                .department(Department.builder().id(1).name("Information System").build())
+                .professor(Professor.builder().id(1).name("Vivek Singh").email("vivek@gmail.com").build())
                 .build());
         when(courseService.findAll()).thenReturn(courseDTOS);
 
@@ -61,9 +61,9 @@ public class CourseControllerTest {
 
         CourseDTO courseDTO = CourseDTO.builder()
                 .id(1)
-                .course_name("Data Programming")
-                .department(Department.builder().id(1).department_name("Information System").build())
-                .professor(Professor.builder().id(1).professor_name("Vivek Singh").professor_email("vivek@gmail.com").build())
+                .name("Data Programming")
+                .department(Department.builder().id(1).name("Information System").build())
+                .professor(Professor.builder().id(1).name("Vivek Singh").email("vivek@gmail.com").build())
                 .build();
         when(courseService.findCourseById(1)).thenReturn(courseDTO);
 
@@ -81,7 +81,7 @@ public class CourseControllerTest {
 
         CourseDTO courseDTO = CourseDTO.builder()
                 .id(1)
-                .course_name("Data Programming")
+                .name("Data Programming")
                 .build();
         when(courseService.saveCourse(courseDTO)).thenReturn(courseDTO);
 

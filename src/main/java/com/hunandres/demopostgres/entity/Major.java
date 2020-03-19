@@ -19,5 +19,5 @@ public class Major {
     private int id;
 
     @Column(name = "major_name")
-    private String major_name;
+    private String name;
 }

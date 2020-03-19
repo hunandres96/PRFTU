@@ -39,13 +39,13 @@ public class MajorServiceImplTest {
         List<Major> majors = new ArrayList<>();
         majors.add(Major.builder()
                 .id(1)
-                .major_name("Marketing")
+                .name("Marketing")
                 .build());
         when(majorRepository.findAll()).thenReturn(majors);
 
         MajorDTO majorDTO = MajorDTO.builder()
                 .id(1)
-                .major_name("Marketing")
+                .name("Marketing")
                 .build();
         when(modelMapper.map(any(), eq(MajorDTO.class))).thenReturn(majorDTO);
 
@@ -63,12 +63,12 @@ public class MajorServiceImplTest {
 
         Major major = Major.builder()
                 .id(1)
-                .major_name("Marketing")
+                .name("Marketing")
                 .build();
 
         MajorDTO majorDTO = MajorDTO.builder()
                 .id(1)
-                .major_name("Marketing")
+                .name("Marketing")
                 .build();
 
         Optional<Major> optionalMajor = Optional.of(major);

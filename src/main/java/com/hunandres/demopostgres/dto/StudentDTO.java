@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class StudentDTO {
 
     private Integer id;
-    private String student_name;
-    private String student_email;
+    private String name;
+    private String email;
     private Major major;
 
 }

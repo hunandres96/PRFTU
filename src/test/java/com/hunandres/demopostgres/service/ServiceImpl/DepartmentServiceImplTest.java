@@ -38,13 +38,13 @@ public class DepartmentServiceImplTest {
         List<Department> departments = new ArrayList<>();
         departments.add(Department.builder()
                 .id(1)
-                .department_name("Marketing")
+                .name("Marketing")
                 .build());
         when(departmentRepository.findAll()).thenReturn(departments);
 
         DepartmentDTO departmentDTO = DepartmentDTO.builder()
                 .id(1)
-                .department_name("Marketing")
+                .name("Marketing")
                 .build();
         when(modelMapper.map(any(), eq(DepartmentDTO.class))).thenReturn(departmentDTO);
 
@@ -62,12 +62,12 @@ public class DepartmentServiceImplTest {
 
         Department department = Department.builder()
                 .id(1)
-                .department_name("Marketing")
+                .name("Marketing")
                 .build();
 
         DepartmentDTO departmentDTO = DepartmentDTO.builder()
                 .id(1)
-                .department_name("Marketing")
+                .name("Marketing")
                 .build();
 
         Optional<Department> optionalDepartment = Optional.of(department);
