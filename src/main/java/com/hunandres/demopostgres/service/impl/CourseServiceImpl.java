@@ -29,9 +29,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> findAll(Integer deptId, Integer pageSize, String sortBy) {
+    public List<CourseDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-        Pageable pageable = PageRequest.of(deptId, pageSize, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
         Page<Course> coursePage = courseRepository.findAll(pageable);
 

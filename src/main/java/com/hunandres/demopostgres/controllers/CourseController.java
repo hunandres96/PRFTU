@@ -23,11 +23,11 @@ public class CourseController {
 
     @GetMapping
     public List<CourseDTO> getCourses(
-            @RequestParam(defaultValue = "1") Integer deptId,
+            @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "100") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
     ) {
-        return courseService.findAll(deptId, pageSize, sortBy);
+        return courseService.findAll(pageNo, pageSize, sortBy);
     }
 
     @GetMapping("/{id}")
