@@ -23,15 +23,17 @@ public class CourseController {
 
     @GetMapping
     public List<CourseDTO> getCourses(
-            @RequestParam(defaultValue = "1") Integer deptId,
+            @RequestParam(defaultValue = "1") Integer pageNo,
             @RequestParam(defaultValue = "100") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
             //@RequestParam(required = false) Integer deptId
 //            @RequestParam(required =  false) Integer professorId,
 //            @RequestParam(required = false) String name
     ) {
-        return courseService.findAll(deptId, pageSize, sortBy);
+        return courseService.findAll(pageNo, pageSize, sortBy);
     }
+
+    //@GetMapping("")
 
     @GetMapping("/{id}")
     public CourseDTO getCourseById(@PathVariable Integer id) {
