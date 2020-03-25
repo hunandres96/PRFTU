@@ -21,10 +21,10 @@ public class StudentController {
     }
 
     @GetMapping
-    private Page<StudentDTO> getStudents(
+    private List<StudentDTO> getStudents(
             @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "name") String sortBy
+            @RequestParam(defaultValue = "100") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy
     ) {
         return studentService.findAll(pageNo, pageSize, sortBy);
     }

@@ -27,8 +27,27 @@ public class StudentServiceImpl implements StudentService {
         this.modelMapper = modelMapper;
     }
 
+//    @Override
+//    public Page<StudentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
+//
+//        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+//
+//        Page<Student> studentPage = studentRepository.findAll(pageable);
+//
+//        List<StudentDTO> studentDTOS = new ArrayList<>();
+//
+//        studentPage.stream().forEach(allStudents -> {
+//            studentDTOS.add(modelMapper.map(allStudents, StudentDTO.class));
+//        });
+//
+//        Page<StudentDTO> dtoPage = new PageImpl<StudentDTO>(studentDTOS, pageable, studentPage.getTotalElements());
+//
+//        return dtoPage;
+//
+//    }
+
     @Override
-    public Page<StudentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<StudentDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
@@ -42,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
 
         Page<StudentDTO> dtoPage = new PageImpl<StudentDTO>(studentDTOS, pageable, studentPage.getTotalElements());
 
-        return dtoPage;
+        return studentDTOS;
 
     }
 
