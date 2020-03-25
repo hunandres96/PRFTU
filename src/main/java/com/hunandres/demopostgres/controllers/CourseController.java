@@ -26,9 +26,6 @@ public class CourseController {
             @RequestParam(defaultValue = "1") Integer deptId,
             @RequestParam(defaultValue = "100") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
-            //@RequestParam(required = false) Integer deptId
-//            @RequestParam(required =  false) Integer professorId,
-//            @RequestParam(required = false) String name
     ) {
         return courseService.findAll(deptId, pageSize, sortBy);
     }
@@ -45,12 +42,6 @@ public class CourseController {
         return ResponseEntity.created(new URI("localhost:8080/courses" + result.getId())).body(result);
 
     }
-
-    //localhost:8080/courses?deptId=5
-    //localhost:8080/courses?professorId=20
-    //localhost:8080/courses?name=math
-    //department/{id}/courses/
-    //courses?deptId=
 
     @DeleteMapping("/{id}")
     public void deleteCourseById(@PathVariable Integer id) {
