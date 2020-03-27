@@ -1,9 +1,11 @@
 package com.hunandres.demopostgres.service.impl;
 
 import com.hunandres.demopostgres.dto.ProfessorDTO;
+import com.hunandres.demopostgres.dto.ProfessorSearchRequest;
 import com.hunandres.demopostgres.entity.Professor;
 import com.hunandres.demopostgres.repositories.ProfessorRepository;
 import com.hunandres.demopostgres.service.ProfessorService;
+import com.querydsl.core.BooleanBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +41,23 @@ public class ProfessorServiceImpl implements ProfessorService {
 
         professorPage.stream().forEach(allProfessors -> {
             professorDTOS.add(modelMapper.map(allProfessors, ProfessorDTO.class));
+        });
+
+        return professorDTOS;
+    }
+
+    @Override
+    public List<ProfessorDTO> search(ProfessorSearchRequest professorSearchRequest) {
+        List<Professor> professors;
+
+        BooleanBuilder predicate = ProfessorRepository.professorSearchRequest(professorSearchRequest);
+
+        professors = (List<Professor>) professorRepository.findAll(predicate);
+
+        List<ProfessorDTO> professorDTOS = new ArrayList<>();
+
+        professors.stream().forEach(professor -> {
+            professorDTOS.add(modelMapper.map(professor, ProfessorDTO.class));
         });
 
         return professorDTOS;

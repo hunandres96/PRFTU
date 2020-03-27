@@ -3,6 +3,7 @@ package com.hunandres.demopostgres.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -22,10 +23,9 @@ public class Department {
     @Column(name = "department_name")
     private String name;
 
-//    @OneToMany
-//    private List<Course> courses;
-//
-//    @OneToMany
-//    private  List<Professor> professors;
+    //@OneToOne(mappedBy = "department")
+    //@OneToMany
+    //@JoinColumn(name = "department")
+    //private List<Course> courses;
 
 }

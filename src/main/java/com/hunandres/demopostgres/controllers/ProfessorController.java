@@ -1,6 +1,7 @@
 package com.hunandres.demopostgres.controllers;
 
 import com.hunandres.demopostgres.dto.ProfessorDTO;
+import com.hunandres.demopostgres.dto.ProfessorSearchRequest;
 import com.hunandres.demopostgres.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,11 @@ public class ProfessorController {
             @RequestParam(defaultValue = "id") String sortBy
     ) {
         return professorService.findAll(pageNo, pageSize, sortBy);
+    }
+
+    @GetMapping("/byDepartments")
+    public List<ProfessorDTO> getProfessorsByDepartment(ProfessorSearchRequest professorSearchRequest) {
+        return professorService.search(professorSearchRequest);
     }
 
     @GetMapping("/{id}")

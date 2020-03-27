@@ -1,9 +1,11 @@
 package com.hunandres.demopostgres.service.impl;
 
 import com.hunandres.demopostgres.dto.CourseDTO;
+import com.hunandres.demopostgres.dto.CourseSearchRequest;
 import com.hunandres.demopostgres.entity.Course;
 import com.hunandres.demopostgres.repositories.CourseRepository;
 import com.hunandres.demopostgres.service.CourseService;
+import com.querydsl.core.BooleanBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,10 +47,24 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
-//    @Override
-//    public List<CourseDTO> findAllByDeptId(Integer id) {
-//        Optional<Course> optionalCourse = courseRepository.
-//    }
+    @Override
+    public List<CourseDTO> search(CourseSearchRequest courseSearchRequest) {
+        List<Course> courses;
+
+        BooleanBuilder predicate = CourseRepository.ccourseSearchPredicate(courseSearchRequest);
+
+        //Sort sort = createSortOder(courseSearchRequest);
+
+        courses = (List<Course>) courseRepository.findAll(predicate);
+
+        List<CourseDTO> courseDTOS = new ArrayList<>();
+
+        courses.stream().forEach(course -> {
+            courseDTOS.add(modelMapper.map(course, CourseDTO.class));
+        });
+
+        return courseDTOS;
+    }
 
     @Override
     public CourseDTO findCourseById(Integer id) {

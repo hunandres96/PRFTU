@@ -1,8 +1,12 @@
 package com.hunandres.demopostgres.controllers;
 
 import com.hunandres.demopostgres.dto.CourseDTO;
+import com.hunandres.demopostgres.dto.CourseSearchRequest;
+import com.hunandres.demopostgres.entity.Course;
+import com.hunandres.demopostgres.entity.Department;
 import com.hunandres.demopostgres.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,17 +27,26 @@ public class CourseController {
 
     @GetMapping
     public List<CourseDTO> getCourses(
-            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "100") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
-            //@RequestParam(required = false) Integer deptId
+            //@RequestParam(value = "deptId") Integer deptId
 //            @RequestParam(required =  false) Integer professorId,
 //            @RequestParam(required = false) String name
     ) {
         return courseService.findAll(pageNo, pageSize, sortBy);
     }
 
-    //@GetMapping("")
+    //localhost:8080/courses?deptId=5
+    //localhost:8080/courses?professorId=20
+
+    //department/{id}/courses/
+    //courses?deptId=
+
+    @GetMapping("/byDepartments")
+    public List<CourseDTO> getCoursesByDepartment(CourseSearchRequest courseSearchRequest) {
+        return courseService.search(courseSearchRequest);
+    }
 
     @GetMapping("/{id}")
     public CourseDTO getCourseById(@PathVariable Integer id) {
@@ -47,12 +60,6 @@ public class CourseController {
         return ResponseEntity.created(new URI("localhost:8080/courses" + result.getId())).body(result);
 
     }
-
-    //localhost:8080/courses?deptId=5
-    //localhost:8080/courses?professorId=20
-    //localhost:8080/courses?name=math
-    //department/{id}/courses/
-    //courses?deptId=
 
     @DeleteMapping("/{id}")
     public void deleteCourseById(@PathVariable Integer id) {
