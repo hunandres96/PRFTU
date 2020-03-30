@@ -3,6 +3,7 @@ package com.hunandres.demopostgres.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "major")
-public class Major {
+public class Major implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
