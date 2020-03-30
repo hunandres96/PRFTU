@@ -30,18 +30,9 @@ public class CourseController {
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "100") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
-            //@RequestParam(value = "deptId") Integer deptId
-//            @RequestParam(required =  false) Integer professorId,
-//            @RequestParam(required = false) String name
     ) {
         return courseService.findAll(pageNo, pageSize, sortBy);
     }
-
-    //localhost:8080/courses?deptId=5
-    //localhost:8080/courses?professorId=20
-
-    //department/{id}/courses/
-    //courses?deptId=
 
     @GetMapping("/byDepartments")
     public List<CourseDTO> getCoursesByDepartment(CourseSearchRequest courseSearchRequest) {

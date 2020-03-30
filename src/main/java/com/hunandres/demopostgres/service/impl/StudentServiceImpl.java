@@ -59,8 +59,6 @@ public class StudentServiceImpl implements StudentService {
             studentDTOS.add(modelMapper.map(allStudents, StudentDTO.class));
         });
 
-        Page<StudentDTO> dtoPage = new PageImpl<StudentDTO>(studentDTOS, pageable, studentPage.getTotalElements());
-
         return studentDTOS;
 
     }
