@@ -1,6 +1,8 @@
 package com.hunandres.demopostgres.entity;
 
 import lombok.*;
+import lombok.extern.java.Log;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "department")
-public class Department {
+public class Department implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,9 +25,7 @@ public class Department {
     @Column(name = "department_name")
     private String name;
 
-    //@OneToOne(mappedBy = "department")
-    //@OneToMany
-    //@JoinColumn(name = "department")
-    //private List<Course> courses;
+    @Column(name = "text")
+    private String text;
 
 }

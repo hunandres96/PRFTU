@@ -5,7 +5,6 @@ import com.hunandres.demopostgres.dto.CourseSearchRequest;
 import com.hunandres.demopostgres.entity.Course;
 import com.hunandres.demopostgres.repositories.CourseRepository;
 import com.hunandres.demopostgres.service.CourseService;
-import com.querydsl.core.BooleanBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,11 +30,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<CourseDTO> search(CourseSearchRequest courseSearchRequest) {
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(courseSearchRequest.getPageNo(), courseSearchRequest.getPageSize(), Sort.by(courseSearchRequest.getSortBy()));
+        Page<Course> coursePage;
 
-        Page<Course> coursePage = courseRepository.findAll(pageable);
+        if (courseSearchRequest.getDepartmentId() == null) {
+            coursePage = courseRepository.findAll(pageable);
+        } else {
+            coursePage = courseRepository.findByDepartmentId(courseSearchRequest.getDepartmentId(), pageable);
+        }
 
         List<CourseDTO> courseDTOS = new ArrayList<>();
 
@@ -45,25 +49,6 @@ public class CourseServiceImpl implements CourseService {
 
         return courseDTOS;
 
-    }
-
-    @Override
-    public List<CourseDTO> search(CourseSearchRequest courseSearchRequest) {
-        List<Course> courses;
-
-        BooleanBuilder predicate = CourseRepository.ccourseSearchPredicate(courseSearchRequest);
-
-        //Sort sort = createSortOder(courseSearchRequest);
-
-        courses = (List<Course>) courseRepository.findAll(predicate);
-
-        List<CourseDTO> courseDTOS = new ArrayList<>();
-
-        courses.stream().forEach(course -> {
-            courseDTOS.add(modelMapper.map(course, CourseDTO.class));
-        });
-
-        return courseDTOS;
     }
 
     @Override
@@ -92,14 +77,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void deleteCourseById(Integer id) {
+    public boolean deleteCourseById(Integer id) {
 
         Optional<Course> optionalCourse = courseRepository.findById(id);
 
         if (optionalCourse.isPresent()) {
             courseRepository.deleteById(id);
+            return true;
         } else {
-            throw new RuntimeException();
+            return false;
         }
 
     }

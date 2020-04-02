@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
 import java.util.List;
 
 @Data
@@ -16,6 +18,6 @@ public class DepartmentDTO {
 
     private Integer id;
     private String name;
-    //private List<Course> courses;
+    private String text;
 
 }

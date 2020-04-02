@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseSearchRequest {
 
-    private Integer[] departmentId;
+    private Integer pageNo = 0;
+    private Integer pageSize = 10;
+    private String sortBy = "id";
+    private String sortDir = "ASC";
+    private Integer departmentId;
 
 }

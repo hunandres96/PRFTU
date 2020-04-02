@@ -2,11 +2,10 @@ package com.hunandres.demopostgres.controllers;
 
 import com.hunandres.demopostgres.dto.CourseDTO;
 import com.hunandres.demopostgres.dto.CourseSearchRequest;
-import com.hunandres.demopostgres.entity.Course;
-import com.hunandres.demopostgres.entity.Department;
 import com.hunandres.demopostgres.service.CourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/courses")
 @CrossOrigin(origins = "http://localhost:3000")
+@Slf4j
 public class CourseController {
 
     private CourseService courseService;
@@ -26,16 +26,7 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<CourseDTO> getCourses(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "100") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy
-    ) {
-        return courseService.findAll(pageNo, pageSize, sortBy);
-    }
-
-    @GetMapping("/byDepartments")
-    public List<CourseDTO> getCoursesByDepartment(CourseSearchRequest courseSearchRequest) {
+    public List<CourseDTO> search(CourseSearchRequest courseSearchRequest) {
         return courseService.search(courseSearchRequest);
     }
 
@@ -53,7 +44,15 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCourseById(@PathVariable Integer id) {
-        courseService.deleteCourseById(id);
+    public ResponseEntity<HttpStatus> deleteCourseById(@PathVariable Integer id) {
+
+        boolean result = courseService.deleteCourseById(id);
+        if (result) {
+            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+        }
     }
 }
+
+
