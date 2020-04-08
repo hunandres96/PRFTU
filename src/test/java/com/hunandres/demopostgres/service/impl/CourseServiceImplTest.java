@@ -1,28 +1,20 @@
 package com.hunandres.demopostgres.service.impl;
 
 import com.hunandres.demopostgres.dto.CourseDTO;
-import com.hunandres.demopostgres.dto.CourseSearchRequest;
 import com.hunandres.demopostgres.entity.Course;
 import com.hunandres.demopostgres.entity.Department;
 import com.hunandres.demopostgres.entity.Professor;
 import com.hunandres.demopostgres.repositories.CourseRepository;
-import com.querydsl.core.types.Predicate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.Matchers.is;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)

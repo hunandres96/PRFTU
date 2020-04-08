@@ -35,26 +35,26 @@ public class CourseControllerTest {
     @MockBean
     private CourseService courseService;
 
-    @Test
-    public void searchCoursesTest() throws Exception {
-
-        List<CourseDTO> courseDTOS = new ArrayList<>();
-        courseDTOS.add(CourseDTO.builder()
-                .id(1)
-                .name("Data Programming")
-                .department(Department.builder().id(1).name("Information System").build())
-                .professor(Professor.builder().id(1).name("Vivek Singh").email("vivek@gmail.com").build())
-                .build());
-        when(courseService.search(any())).thenReturn(courseDTOS);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/courses");
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-
-        verify(courseService, times(1)).search(any());
-        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
-
-    }
+//    @Test
+//    public void searchCoursesTest() throws Exception {
+//
+//        List<CourseDTO> courseDTOS = new ArrayList<>();
+//        courseDTOS.add(CourseDTO.builder()
+//                .id(1)
+//                .name("Data Programming")
+//                .department(Department.builder().id(1).name("Information System").build())
+//                .professor(Professor.builder().id(1).name("Vivek Singh").email("vivek@gmail.com").build())
+//                .build());
+//        when(courseService.search(any())).thenReturn(courseDTOS);
+//
+//        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/courses");
+//        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+//        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+//
+//        verify(courseService, times(1)).search(any());
+//        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+//
+//    }
 
     @Test
     public void findCourseById() throws Exception {

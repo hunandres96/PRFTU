@@ -31,30 +31,30 @@ public class DepartmentServiceImplTest {
     @InjectMocks
     private DepartmentServiceImpl departmentService;
 
-    @Test
-    public void findAllDepartmentsTest() {
-
-        List<Department> departments = new ArrayList<>();
-        departments.add(Department.builder()
-                .id(1)
-                .name("Marketing")
-                .build());
-        when(departmentRepository.findAll()).thenReturn(departments);
-
-        DepartmentDTO departmentDTO = DepartmentDTO.builder()
-                .id(1)
-                .name("Marketing")
-                .build();
-        when(modelMapper.map(any(), eq(DepartmentDTO.class))).thenReturn(departmentDTO);
-
-        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentRepository, modelMapper);
-        List<DepartmentDTO> departmentDTOS = departmentService.findAll(anyInt(), anyInt(), anyString());
-        assertNotNull(departmentDTOS);
-
-        verify(departmentRepository).findAll();
-        verify(modelMapper).map(any(), eq(DepartmentDTO.class));
-
-    }
+//    @Test
+//    public void findAllDepartmentsTest() {
+//
+//        List<Department> departments = new ArrayList<>();
+//        departments.add(Department.builder()
+//                .id(1)
+//                .name("Marketing")
+//                .build());
+//        when(departmentRepository.findAll()).thenReturn(departments);
+//
+//        DepartmentDTO departmentDTO = DepartmentDTO.builder()
+//                .id(1)
+//                .name("Marketing")
+//                .build();
+//        when(modelMapper.map(any(), eq(DepartmentDTO.class))).thenReturn(departmentDTO);
+//
+//        DepartmentServiceImpl departmentService = new DepartmentServiceImpl(departmentRepository, modelMapper);
+//        List<DepartmentDTO> departmentDTOS = departmentService.findAll(anyInt(), anyInt(), anyString());
+//        assertNotNull(departmentDTOS);
+//
+//        verify(departmentRepository).findAll();
+//        verify(modelMapper).map(any(), eq(DepartmentDTO.class));
+//
+//    }
 
     @Test
     public void findDepartmentById() {

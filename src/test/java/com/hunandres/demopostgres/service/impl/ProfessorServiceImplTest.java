@@ -32,33 +32,33 @@ public class ProfessorServiceImplTest {
     @InjectMocks
     private ProfessorServiceImpl professorServiceImpl;
 
-    @Test
-    public void findAllProfessorsTest() {
-
-        List<Professor> professors = new ArrayList<>();
-        Professor professor = Professor.builder()
-                .id(1)
-                .name("Drake Perry")
-                .email("drakeperry@umsl.edu")
-                .department(Department.builder().name("Marketing").build())
-                .build();
-        professors.add(professor);
-        when(professorRepository.findAll()).thenReturn(professors);
-
-        ProfessorDTO professorDTO = ProfessorDTO.builder()
-                .id(1)
-                .name("Drake Perry")
-                .email("drakeperry@umsl.edu")
-                .build();
-        when(modelMapper.map(any(), eq(ProfessorDTO.class))).thenReturn(professorDTO);
-
-        ProfessorServiceImpl professorService = new ProfessorServiceImpl(professorRepository, modelMapper);
-        List<ProfessorDTO> professorDTOS = professorService.findAll(anyInt(), anyInt(), anyString());
-        assertNotNull(professorDTOS);
-
-        verify(professorRepository).findAll();
-        verify(modelMapper).map(any(), eq(ProfessorDTO.class));
-    }
+//    @Test
+//    public void searchProfessorsTest() {
+//
+//        List<Professor> professors = new ArrayList<>();
+//        Professor professor = Professor.builder()
+//                .id(1)
+//                .name("Drake Perry")
+//                .email("drakeperry@umsl.edu")
+//                .department(Department.builder().name("Marketing").build())
+//                .build();
+//        professors.add(professor);
+//        when(professorRepository.findAll()).thenReturn(professors);
+//
+//        ProfessorDTO professorDTO = ProfessorDTO.builder()
+//                .id(1)
+//                .name("Drake Perry")
+//                .email("drakeperry@umsl.edu")
+//                .build();
+//        when(modelMapper.map(any(), eq(ProfessorDTO.class))).thenReturn(professorDTO);
+//
+//        ProfessorServiceImpl professorService = new ProfessorServiceImpl(professorRepository, modelMapper);
+//        List<ProfessorDTO> professorDTOS = professorService.findAll(anyInt(), anyInt(), anyString());
+//        assertNotNull(professorDTOS);
+//
+//        verify(professorRepository).findAll();
+//        verify(modelMapper).map(any(), eq(ProfessorDTO.class));
+//    }
 
     @Test
     public void findProfessorById() {

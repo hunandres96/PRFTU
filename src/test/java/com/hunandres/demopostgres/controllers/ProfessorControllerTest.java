@@ -37,25 +37,25 @@ public class ProfessorControllerTest {
     @MockBean
     private ProfessorService professorService;
 
-    @Test
-    public void getProfessorsTest() throws Exception {
-
-        List<ProfessorDTO> professorDTOS = new ArrayList<>();
-        professorDTOS.add(ProfessorDTO.builder()
-            .id(1)
-            .name("Drake Perry")
-            .email("drakeperry@umsl.edu")
-            .build());
-        when(professorService.findAll(anyInt(), anyInt(), anyString())).thenReturn(professorDTOS);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/professors");
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-
-        verify(professorService, times(1)).findAll(anyInt(), anyInt(), anyString());
-        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
-
-    }
+//    @Test
+//    public void getProfessorsTest() throws Exception {
+//
+//        List<ProfessorDTO> professorDTOS = new ArrayList<>();
+//        professorDTOS.add(ProfessorDTO.builder()
+//            .id(1)
+//            .name("Drake Perry")
+//            .email("drakeperry@umsl.edu")
+//            .build());
+//        when(professorService.findAll(anyInt(), anyInt(), anyString())).thenReturn(professorDTOS);
+//
+//        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/professors");
+//        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+//        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+//
+//        verify(professorService, times(1)).findAll(anyInt(), anyInt(), anyString());
+//        assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+//
+//    }
 
     @Test
     public void getProfessorById() throws Exception {

@@ -31,32 +31,20 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
-    public List<ProfessorDTO> findAll(Integer pageNo, Integer pageSize, String sortBy) {
-
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-        Page<Professor> professorPage = professorRepository.findAll(pageable);
-
-        List<ProfessorDTO> professorDTOS = new ArrayList<>();
-
-        professorPage.stream().forEach(allProfessors -> {
-            professorDTOS.add(modelMapper.map(allProfessors, ProfessorDTO.class));
-        });
-
-        return professorDTOS;
-    }
-
-    @Override
     public List<ProfessorDTO> search(ProfessorSearchRequest professorSearchRequest) {
-        List<Professor> professors;
 
-        BooleanBuilder predicate = ProfessorRepository.professorSearchRequest(professorSearchRequest);
+        Pageable pageable = PageRequest.of(professorSearchRequest.getPageNo(), professorSearchRequest.getPageSize(), Sort.by(professorSearchRequest.getSortBy()));
+        Page<Professor> professorPage;
 
-        professors = (List<Professor>) professorRepository.findAll(predicate);
+        if (professorSearchRequest.getDepartmentId() == null) {
+            professorPage = professorRepository.findAll(pageable);
+        } else {
+            professorPage = professorRepository.findByDepartmentId(professorSearchRequest.getDepartmentId(), pageable);
+        }
 
         List<ProfessorDTO> professorDTOS = new ArrayList<>();
 
-        professors.stream().forEach(professor -> {
+        professorPage.stream().forEach(professor -> {
             professorDTOS.add(modelMapper.map(professor, ProfessorDTO.class));
         });
 

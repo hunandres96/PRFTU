@@ -22,16 +22,7 @@ public class ProfessorController {
 
 
     @GetMapping
-    public List<ProfessorDTO> getProfessors(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy
-    ) {
-        return professorService.findAll(pageNo, pageSize, sortBy);
-    }
-
-    @GetMapping("/byDepartments")
-    public List<ProfessorDTO> getProfessorsByDepartment(ProfessorSearchRequest professorSearchRequest) {
+    public List<ProfessorDTO> search(ProfessorSearchRequest professorSearchRequest) {
         return professorService.search(professorSearchRequest);
     }
 
