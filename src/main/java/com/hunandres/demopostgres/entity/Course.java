@@ -18,8 +18,14 @@ public class Course {
     @SequenceGenerator(name = "courseSeq", sequenceName = "course_seq", initialValue = 41, allocationSize = 1)
     private Integer id;
 
+    @Column(name = "course_number")
+    private String number;
+
     @Column(name = "course_name")
     private String name;
+
+    @Column(name = "course_description")
+    private String description;
 
     @ManyToOne
     private Department department;

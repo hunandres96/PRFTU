@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 public class CourseDTO {
 
     private Integer id;
+    private String number;
     private String name;
+    private String description;
     private Department department;
     private Professor professor;
 

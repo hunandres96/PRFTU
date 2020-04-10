@@ -14,6 +14,9 @@ public class ProfessorDTO {
 
     private Integer id;
     private String name;
+    private String title;
+    private String office;
+    private String number;
     private String email;
     private Department department;
 

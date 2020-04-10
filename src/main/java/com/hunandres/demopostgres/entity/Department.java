@@ -25,7 +25,7 @@ public class Department implements Serializable {
     @Column(name = "department_name")
     private String name;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "description")
+    private String description;
 
 }

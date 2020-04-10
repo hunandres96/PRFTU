@@ -18,6 +18,6 @@ public class DepartmentDTO {
 
     private Integer id;
     private String name;
-    private String text;
+    private String description;
 
 }

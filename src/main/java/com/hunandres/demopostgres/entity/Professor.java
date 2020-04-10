@@ -23,6 +23,15 @@ public class Professor {
     @Column(name = "professor_name")
     private String name;
 
+    @Column(name = "professor_title")
+    public String title;
+
+    @Column(name = "professor_office")
+    public String office;
+
+    @Column(name = "phone_number")
+    public String number;
+
     @Column(name = "professor_email")
     private String email;
 
